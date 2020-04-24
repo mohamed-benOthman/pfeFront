@@ -1,0 +1,157 @@
+<div class="modal-fluid">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      Ajouter Amicale
+    </h3>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step label="Données du contrat">
+      <form class="overflow-auto" #identityForm="ngForm">
+        <div class="form-group">
+          <label>Numéro de Police</label>
+          <input
+            #codeUtecom="ngModel"
+            pattern="[0-9]*"
+            ngModel
+            name="codeUtecom"
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Code Utecom"
+            [class.is-invalid]="codeUtecom.invalid && codeUtecom.touched"
+          />
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="codeUtecom.invalid && codeUtecom.touched"
+            >Seulement des Numéros
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Date d'Echéance</label>
+          <div class="row">
+            <div class="col-10">
+              <input
+                #codeUtecom="ngModel"
+                required
+                ngModel
+                [matDatepicker]="myDatepicker"
+                class="form-control"
+                placeholder="Code Utecom"
+                [class.is-invalid]="codeUtecom.invalid && codeUtecom.dirty"
+              />
+            </div>
+            <div class="col-2 pr--1">
+              <mat-datepicker-toggle
+                [for]="myDatepicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #myDatepicker></mat-datepicker>
+            </div>
+          </div>
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="codeUtecom.invalid && codeUtecom.dirty"
+            >Seulement des Numéros
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Date Effective</label>
+          <div class="row">
+            <div class="col-10">
+              <input
+                #codeUtecom="ngModel"
+                required
+                ngModel
+                [matDatepicker]="myDatepicker"
+                class="form-control"
+                placeholder="Code Utecom"
+                [class.is-invalid]="codeUtecom.invalid && codeUtecom.touched"
+              />
+            </div>
+            <div class="col-2 pr--1">
+              <mat-datepicker-toggle
+                [for]="myDatepicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #myDatepicker></mat-datepicker>
+            </div>
+          </div>
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="codeUtecom.invalid && codeUtecom.dirty"
+            >Seulement des Numéros
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Remarques</label>
+          <textarea
+            required
+            #nom="ngModel"
+            ngModel
+            type="text"
+            [class.is-invalid]="nom.invalid && nom.touched"
+            name="nom"
+            class="form-control"
+            rows="3"
+            id="exampleFormControlInput1"
+            placeholder="Nom"
+          >
+          </textarea>
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="nom.invalid && nom.touched"
+            >Le Nom est requis
+          </small>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step label="uploader le contrat">
+      <div class="container-fluid">
+        <input
+          #fileInput
+          style="display: none;"
+          type="file"
+          (change)="onFileSelected($event)"
+        />
+
+        <ngx-file-drop
+          dropZoneLabel="Drop files here"
+          (onFileDrop)="dropped($event)"
+          (onFileOver)="fileOver($event)"
+          (onFileLeave)="fileLeave($event)"
+        >
+          <ng-template
+            height="20vh"
+            ngx-file-drop-content-tmp
+            let-openFileSelector="openFileSelector"
+          >
+            <i class="fa fa-upload fa-4x"></i>
+          </ng-template>
+        </ngx-file-drop>
+
+        <br />
+
+        <div class="row justify-content-center">
+          <button
+            type="button"
+            class="btn-primary rounded b border-0"
+            (click)="fileInput.click()"
+          >
+            Browse Files
+          </button>
+        </div>
+        <br />
+        <div class="row justify-content-center">
+          {{ this.progress }}%
+          <mat-progress-bar
+            mode="determinate"
+            [value]="this.progress"
+          ></mat-progress-bar>
+        </div>
+        <br />
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

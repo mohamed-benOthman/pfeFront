@@ -1,70 +1,137 @@
 <div class="modal-lg">
   <div class="modal-header">
-    <h3 *ngIf="this.successStatut==false" class="modal-title">Ajouter Amicale</h3>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <h3 *ngIf="this.successStatut == false" class="modal-title">
+      Ajouter Amicale
+    </h3>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
-  </div >
-    <div class="modal-body">
-      <form #form="ngForm" (ngSubmit)="onSubmit(form)" *ngIf="this.successStatut==false">
-        <div class="form-group">
-          <label for="exampleFormControlInput1">Nom</label>
-          <input ngModel  type="text" name="nom" class="form-control" id="exampleFormControlInput1" placeholder="Amicale 1">
-        </div>
-        <small *ngIf="this.checkNom==true" class="alert alert-danger d-flex justify-content-center">Champs requis</small>
-        <div class="form-group">
-          <label for="exampleFormControlInput1">Adresse</label>
-          <input ngModel name="adresse" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Sousse Jawhara 4000" required>
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlInput1">Email</label>
-          <input #email="ngModel"  ngModel  name="email"  type="email" class="form-control"  [pattern]="unamePattern" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-        <small *ngIf="email.errors?.pattern" class="alert alert-danger d-flex justify-content-center">
-          Email incorrecte
-        </small>
-        <div class="container-12">
-          <div class="row justify-content-between">
-          <div class="col-xl">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Numéro 1</label>
-            <input ngModel name="num1"  required type="text" class="form-control" id="exampleFormControlInput1" placeholder="+216 66789423">
-          </div>
-
-          </div>
-          <div class="col-xl">
-            <div class="form-group ">
-              <label for="exampleFormControlInput1">Numéro 2</label>
-              <input ngModel name="num2" type="text" class="form-control" id="exampleFormControlInput1" placeholder="+216 66789423">
-
-            </div>
-
-          </div>
-
-        </div>
-        <small *ngIf="this.checkNom==true" class="alert alert-danger d-flex justify-content-center">Champs requis</small>
-
-        <small *ngIf="errorStatut==true"  class="alert alert-danger d-flex justify-content-center"  >
-          Cette amicale exite déja
-
-        </small>
-        <div class="row justify-content-end">
-          <div  >
-          <button class="btn btn-outline-danger"  (click)="activeModal.close('Close click')" >Fermer</button>
-        </div>
-        <div class="ml-3 col-4">
-          <input [disabled]="email.errors" type="submit" class="btn btn-primary btn-block" value="Ajouter">
-        </div>
-
-        </div>
-        </div>
-
-      </form>
-      <span *ngIf="this.successStatut==true" class="material-icons d-flex justify-content-center  text-success " style="font-size: 8em;">
-        verified_user
-        </span>
-      <p  *ngIf="this.successStatut==true" class="d-flex justify-content-center  text-success" >
-        <strong>Success! </strong> Amicale est ajoutée
-      </p>
-    </div>
   </div>
+  <div class="modal-body">
+    <form
+      #form="ngForm"
+      (ngSubmit)="onSubmit(form)"
+      *ngIf="this.successStatut == false"
+    >
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Nom</label>
+        <input
+          ngModel
+          type="text"
+          name="nom"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Amicale 1"
+        />
+      </div>
+      <small
+        *ngIf="this.checkNom == true"
+        class="alert alert-danger d-flex justify-content-center"
+        >Champs requis</small
+      >
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Adresse</label>
+        <input
+          ngModel
+          name="adresse"
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Sousse Jawhara 4000"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Email</label>
+        <input
+          #email="ngModel"
+          ngModel
+          name="email"
+          type="email"
+          class="form-control"
+          [pattern]="unamePattern"
+          id="exampleFormControlInput1"
+          placeholder="name@example.com"
+        />
+      </div>
+      <small
+        *ngIf="email.errors?.pattern"
+        class="alert alert-danger d-flex justify-content-center"
+      >
+        Email incorrecte
+      </small>
+      <div class="container-12">
+        <div class="row justify-content-between">
+          <div class="col-xl">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Numéro 1</label>
+              <input
+                ngModel
+                name="num1"
+                required
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="+216 66789423"
+              />
+            </div>
+          </div>
+          <div class="col-xl">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Numéro 2</label>
+              <input
+                ngModel
+                name="num2"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="+216 66789423"
+              />
+            </div>
+          </div>
+        </div>
+        <small
+          *ngIf="this.checkNom == true"
+          class="alert alert-danger d-flex justify-content-center"
+          >Champs requis</small
+        >
+
+        <small class="text-warning d-flex justify-content-center">
+          {{ this.error }}
+        </small>
+        <br />
+        <div class="row justify-content-end">
+          <div>
+            <button
+              class="btn btn-outline-danger"
+              (click)="activeModal.close('Close click')"
+            >
+              Fermer
+            </button>
+          </div>
+          <div class="ml-3 col-4">
+            <input
+              [disabled]="email.errors"
+              type="submit"
+              class="btn btn-primary btn-block"
+              value="Ajouter"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+    <span
+      *ngIf="this.successStatut == true"
+      class="material-icons d-flex justify-content-center text-success"
+      style="font-size: 8em;"
+    >
+      verified_user
+    </span>
+    <p
+      *ngIf="this.successStatut == true"
+      class="d-flex justify-content-center text-success"
+    >
+      <strong>Success! </strong> Amicale est ajoutée
+    </p>
+  </div>
+</div>

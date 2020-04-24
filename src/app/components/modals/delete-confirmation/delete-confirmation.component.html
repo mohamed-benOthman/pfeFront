@@ -1,0 +1,16 @@
+<h3>Vous etes sure de supprimer {{ this.data.type }} des {{ this.nom }} ?</h3>
+<br />
+
+<div class="container-12">
+  <div class="row">
+    <div class="col-6 d-flex justify-content-center">
+      <button class="btn btn-warning" (click)="deleteAnything()">
+        Confirmer
+      </button>
+    </div>
+
+    <div class="col-6 d-flex justify-content-center">
+      <button (click)="close()" class="btn btn-primary">Annuler</button>
+    </div>
+  </div>
+</div>

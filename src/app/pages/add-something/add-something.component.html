@@ -1,0 +1,334 @@
+<div class="modal-fluid">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      Ajouter Amicale
+    </h3>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step label="Cordonnés Personels" [completed]="this.completed">
+      <form
+        class="overflow-auto"
+        #identityForm="ngForm"
+        (ngSubmit)="onSubmit(identityForm, stepper)"
+      >
+        <div class="form-group">
+          <label *ngIf="this.width >= optimalWidth">Nom</label>
+          <input
+            required
+            #nom="ngModel"
+            ngModel
+            type="text"
+            [class.is-invalid]="nom.invalid && nom.touched"
+            name="nom"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Nom"
+          />
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="nom.invalid && nom.touched"
+            >Le Nom est requis
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label *ngIf="this.width >= optimalWidth">Prénom</label>
+          <input
+            required
+            #prenom="ngModel"
+            ngModel
+            type="text"
+            name="prenom"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Prénom"
+            [class.is-invalid]="prenom.invalid && prenom.touched"
+          />
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="prenom.invalid && prenom.touched"
+            >Le Prénom est requis
+          </small>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-xl">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">CIN</label>
+              <input
+                required
+                #cin="ngModel"
+                pattern="^\d{8}$"
+                ngModel
+                name="cin"
+                required
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="cin"
+                [class.is-invalid]="cin.invalid && cin.touched"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="cin.invalid && cin.touched"
+                >8 Numéros
+              </small>
+            </div>
+          </div>
+
+          <div class="col-xl">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">Code UTECOM</label>
+              <input
+                #codeUtecom="ngModel"
+                pattern="[0-9]*"
+                ngModel
+                name="codeUtecom"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Code Utecom"
+                [class.is-invalid]="codeUtecom.invalid && codeUtecom.dirty"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="codeUtecom.invalid && codeUtecom.dirty"
+                >Seulement des Numéros
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label *ngIf="this.width >= optimalWidth">Numéro Carte</label>
+          <input
+            #numCarte="ngModel"
+            pattern="[0-9]*"
+            ngModel
+            type="text"
+            name="numCarte"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Numéro Carte"
+            [class.is-invalid]="numCarte.invalid && numCarte.dirty"
+          />
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="numCarte.invalid && numCarte.dirty"
+            >Seulement des Numéros
+          </small>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col-xl">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">Numéro1</label>
+              <input
+                required
+                #num1="ngModel"
+                pattern="^\d{8}$"
+                ngModel
+                name="num1"
+                required
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="66789423"
+                [class.is-invalid]="num1.invalid && num1.touched"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="num1.invalid && num1.touched"
+                >8 Numéros
+              </small>
+            </div>
+          </div>
+          <div class="col-xl">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">Numéro2</label>
+              <input
+                pattern="^\d{8}$"
+                #num2="ngModel"
+                ngModel
+                name="num2"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="66789423"
+                [class.is-invalid]="num2.invalid && num2.dirty"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="num2.invalid && num2.dirty"
+                >8 Numéros
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label *ngIf="this.width >= optimalWidth">Email</label>
+          <input
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
+            ngModel
+            #email="ngModel"
+            type="text"
+            name="email"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Email"
+            [class.is-invalid]="email.invalid && email.dirty"
+          />
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="email.invalid && email.dirty"
+            >Email Invalide
+          </small>
+        </div>
+        <strong
+          class="d-flex justify-content-center text-danger"
+          *ngIf="exist === true"
+          >Ce Adhérent existe déja
+        </strong>
+        <div class="d-flex justify-content-end">
+          <button
+            [disabled]="identityForm.form.invalid"
+            class="btn btn-success"
+            type="submit"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step label="Adresse " [completed]="this.completed2">
+      <form #adress="ngForm" (ngSubmit)="onSubmit2(adress, stepper)">
+        <div class="form-group">
+          <label *ngIf="this.width >= optimalWidth">Gouvernorat</label>
+          <select
+            required
+            #gouvernorat="ngModel"
+            [class.is-invalid]="gouvernorat.invalid && gouvernorat.touched"
+            (change)="selectGouvernorat($event.target.value)"
+            class="form-control"
+            name="gouvernorat"
+            ngModel
+          >
+            <option value="">Gouvernorat</option>
+            <option
+              [value]="i"
+              *ngFor="let gouvernorats of this.gouvernorats; let i = index"
+            >
+              {{ gouvernorats }}
+            </option>
+          </select>
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="gouvernorat.invalid && gouvernorat.touched"
+            >Ce Champs est requis
+          </small>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col-7">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">Municipalité</label>
+              <select
+                #municipalite="ngModel"
+                ngModel
+                required
+                (change)="selectMunicipalite($event.target.value)"
+                class="form-control"
+                name="municipalite"
+                [class.is-invalid]="gouvernorat.invalid && gouvernorat.touched"
+              >
+                <option>Municipalité</option>
+                <option
+                  [value]="municipalite"
+                  *ngFor="
+                    let municipalite of this.muncipalites[
+                      this.gouvernoratNumber
+                    ]
+                  "
+                >
+                  {{ municipalite }}
+                </option>
+              </select>
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="municipalite.invalid && municipalite.touched"
+                >Ce Champs est requis
+              </small>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">Code Postale</label>
+              <input
+                pattern="^\d{4}$"
+                #codePostale="ngModel"
+                ngModel
+                name="codePostale"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Code Postale"
+                [class.is-invalid]="codePostale.invalid && codePostale.dirty"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="codePostale.invalid && codePostale.dirty"
+                >4 Numéros
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label *ngIf="this.width >= optimalWidth">Rue</label>
+          <input
+            required
+            #rue="ngModel"
+            ngModel
+            type="text"
+            [class.is-invalid]="nom.invalid && nom.touched"
+            name="rue"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Amicale 1"
+          />
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="rue.invalid && rue.touched"
+            >La rue est requise
+          </small>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-danger" matStepperPrevious>
+            Retourner
+          </button>
+          <button
+            [disabled]="adress.form.invalid"
+            class="btn btn-success"
+            type="submit"
+          >
+            Ajouter
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Succées</ng-template>
+      <div>
+        <span
+          class="material-icons d-flex justify-content-center text-success"
+          style="font-size: 8em;"
+        >
+          verified_user
+        </span>
+        <strong class="d-flex justify-content-center text-success"
+          >Ajouté avec succées</strong
+        >
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

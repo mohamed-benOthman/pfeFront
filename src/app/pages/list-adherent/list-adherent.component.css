@@ -1,0 +1,25 @@
+.mask {
+  background: #1b9cfc !important;
+}
+table {
+  width: 100%;
+}
+/* @media screen and (max-width: 700px) {
+  .card shadow{
+    div{
+      h3{
+
+      }
+    }
+  }
+} */
+.matMenuButton:hover {
+  background-color: #1b9cfc;
+  color: #ffffff;
+}
+th > a {
+  color: #525f7f;
+}
+td > a {
+  color: #525f7f;
+}

@@ -3,17 +3,16 @@ import { HttpInterceptor } from '@angular/common/http';
 import { AuthService } from './auth.service';
 @Injectable()
 export class JwtInterceptorService implements HttpInterceptor {
-
   constructor(private injector: Injector) {}
   intercept(req, next) {
     const authService = this.injector.get(AuthService);
 
-    const tokenizedReq = req.clone(
-      {
-        headers: req.headers.set('Authorization', 'bearer ' + authService.getToken())
-      }
-    );
+    const tokenizedReq = req.clone({
+      headers: req.headers.set(
+        'Authorization',
+        'bearer ' + authService.getToken()
+      )
+    });
     return next.handle(tokenizedReq);
   }
-
 }

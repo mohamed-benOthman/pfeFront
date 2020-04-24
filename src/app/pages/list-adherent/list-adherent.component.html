@@ -1,0 +1,321 @@
+<div
+  [ngClass]="
+    this.width >= this.optimalWidth
+      ? 'header pb-8 pt-5 pt-lg-8 pr-3 align-items-center'
+      : 'header pb-8 pt-5 pt-lg-8 pr-1 align-items-center'
+  "
+>
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid">
+    <div class="row">
+      <div
+        [ngClass]="this.width >= this.optimalWidth ? 'col-8' : 'col-12'"
+        id="mainCard"
+      >
+        <div class="card card-profile shadow">
+          <div class="card-header text-center border-0 pt-0 pb-0 pb-md-4"></div>
+          <div class="card-body pt-0">
+            <div class="text-center">
+              <div class="d-flex" style="flex-direction: column;">
+                <span
+                  class="align-self-center"
+                  style="position: relative; left: 0.4em;"
+                >
+                  <h2 class="font-weight-bold">
+                    {{ this.nom | uppercase }}
+                  </h2>
+                </span>
+                <span class="align-self-end" style="position: absolute;">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="openAddDialog(this.idAmicale)"
+                  >
+                    Modifier <i class="fas fa-cog"></i>
+                  </button>
+                </span>
+              </div>
+              <div *ngIf="this.emailAmicale.length != 0" class="h3 mt-4">
+                <i class="ni business_briefcase-24 mr-2"></i>Email
+              </div>
+              <div *ngIf="this.emailAmicale.length != 0">
+                {{ this.emailAmicale }}
+              </div>
+              <div class="h3 mt-4">
+                <i class="ni business_briefcase-24 mr-2"></i>Numéros du
+                Téléphones
+              </div>
+              <div *ngIf="this.num2.length === 0">{{ this.num1 }}</div>
+              <div
+                *ngIf="this.num2.length >= 1"
+                class="d-flex justify-content-center"
+              >
+                <div class="row">
+                  <div class="col-6">{{ this.num1 }}</div>
+                  <div class="col-6">{{ this.num2 }}</div>
+                </div>
+              </div>
+              <div class="h3 mt-4">
+                <i class="ni business_briefcase-24 mr-2"></i>Adresse
+              </div>
+              <div *ngIf="this.emailAmicale.length != 0">
+                {{ this.adresseAmicale1 }} {{ this.adresseAmicale2 }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4" *ngIf="this.width >= optimalWidth">
+        <div class="row" style="height: 47.5%;">
+          <div class="card-body bg-white rounded">
+            <div class="row">
+              <div class="col-lg-9 h-auto">
+                <h3 class="card-title text-uppercase text-muted mb-0">
+                  Nombre des Adhérents
+                </h3>
+                <span class="h2 font-weight-bold mb-0">{{
+                  this.listAdherent.length
+                }}</span>
+              </div>
+              <div class="col-auto">
+                <div
+                  class="icon icon-shape bg-danger text-white rounded-circle shadow"
+                >
+                  <i class="fas fa-male fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="height: 5%;"></div>
+        <div class="row" style="height: 47.5%;">
+          <div class="card-body bg-white rounded">
+            <div class="row">
+              <div class="col-lg-9 h-auto">
+                <h3 class="card-title text-uppercase text-muted mb-0">
+                  Nombre des Adhérents actifs
+                </h3>
+                <span class="h2 font-weight-bold mb-0">{{
+                  this.nbAdherentsActifs
+                }}</span>
+              </div>
+              <div class="col-auto">
+                <div
+                  class="icon icon-shape bg-danger text-white rounded-circle shadow"
+                >
+                  <i class="fas fa-check-circle fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="container-fluid card-header shadow-none bg-white border-0">
+          <div class="row justify-content-between">
+            <div [ngClass]="this.width >= 1350 ? 'col-4' : 'col-3'">
+              <h3 class="mt-2 mb-0">Liste des Adhérents</h3>
+            </div>
+            <div class="col-4">
+              <input
+                type="text"
+                class="form-control"
+                name="searchString"
+                placeholder="Chercher..."
+                [(ngModel)]="searchString"
+              />
+            </div>
+            <div
+              [ngClass]="this.width > 1580 ? 'col-1' : 'col-2'"
+              *ngIf="this.width >= 1180"
+              class="col-1"
+            >
+              <div class="dropdown">
+                <button
+                  class="btn btn-primary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Items par page
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="changeMaxSize(10)"
+                  >
+                    10
+                  </button>
+
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="changeMaxSize(100)"
+                  >
+                    100
+                  </button>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="changeMaxSize(500)"
+                  >
+                    500
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="openAddDialog(this.idAmicale)"
+              >
+                Ajouter <i class="fas fa-plus-circle"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="table-responsive">
+            <table
+              matSort
+              (matSortChange)="sortData($event)"
+              class="table align-items-center table-flush w-100"
+            >
+              <thead>
+                <tr>
+                  <th mat-sort-header="nom">
+                    Nom
+                  </th>
+                  <th mat-sort-header="prenom">Prenom</th>
+                  <th mat-sort-header="codeUtecom">Code Utecom</th>
+                  <th mat-sort-header="cin">CIN</th>
+                  <th mat-sort-header="numTel1">NumTel1</th>
+                  <th mat-sort-header="numTel2">NumTel2</th>
+                  <th mat-sort-header="numCarte">Num Carte</th>
+                  <th mat-sort-header="email">Email</th>
+                  <th mat-sort-header="statut">Statut</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let adherent of sortedData
+                      | filter: searchString
+                      | paginate
+                        : {
+                            id: 'adherentPagination',
+                            itemsPerPage: maxSize,
+                            currentPage: page,
+                            totalItems: totalAdherents
+                          }
+                  "
+                >
+                  <th scope="row">
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.nom
+                    }}</a>
+                  </th>
+                  <th scope="row">
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.prenom
+                    }}</a>
+                  </th>
+                  <th scope="row">
+                    adherent.codeUtecom
+                  </th>
+                  <td>
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.cin
+                    }}</a>
+                  </td>
+                  <td>
+                    {{ adherent.numTel1 }}
+                  </td>
+                  <td>
+                    {{ adherent.numTel2 }}
+                  </td>
+                  <td>
+                    {{ adherent.numCarte }}
+                  </td>
+                  <td>
+                    {{ adherent.email }}
+                  </td>
+                  <td>
+                    <span class="badge badge-dot mr-4">
+                      <i class="bg-warning"></i> {{ adherent.statut }}
+                    </span>
+                  </td>
+                  <td>
+                    <i
+                      mat-button
+                      [matMenuTriggerFor]="menu"
+                      class="fas fa-ellipsis-v"
+                      style="color: #56baed;"
+                    >
+                    </i>
+                    <mat-menu #menu="matMenu">
+                      <button
+                        class="matMenuButton"
+                        (click)="
+                          openDeleteDialog(
+                            adherent.id,
+                            adherent.nom,
+                            adherent.adresse.id
+                          )
+                        "
+                        mat-menu-item
+                      >
+                        Supprimer
+                      </button>
+                      <button
+                        class="matMenuButton"
+                        mat-menu-item
+                        (click)="openEditDialog(adherent.cin)"
+                      >
+                        Modifier
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+            <div class="mr-4 d-flex justify-content-end">
+              <div>
+                <pagination-controls
+                  id="adherentPagination"
+                  [maxSize]="this.maxSize"
+                  directionLinks="true"
+                  autoHide="true"
+                  responsive="true"
+                  previousLabel="Précédent"
+                  nextLabel="Suivant"
+                  (pageChange)="page = $event"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+</div>

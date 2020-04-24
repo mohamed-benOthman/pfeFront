@@ -1,13 +1,21 @@
-.header{
-  background:  #1b9cfc;
+.header {
+  background: #1b9cfc;
 }
-
 
 @media screen and (max-width: 700px) {
-  .material-icons {
-    font-size: 4em !important;
+  div {
+    a {
+      .fa {
+        font-size: 4em !important;
+      }
+    }
   }
 }
+// span {
+//   .fa {
+//     font-size: 1em !important;
+//   }
+// }
 div::-webkit-scrollbar {
   width: 0.5em;
 }
@@ -19,4 +27,20 @@ div::-webkit-scrollbar-track {
 div::-webkit-scrollbar-thumb {
   background-color: #56baed;
   outline: 1px solid slategrey;
+}
+
+#folder.cdk-drop-list-dragging .col-3:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+#item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

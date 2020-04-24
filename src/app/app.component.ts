@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'app-root',

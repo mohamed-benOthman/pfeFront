@@ -4,7 +4,6 @@ import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { IconsComponent } from "../../pages/icons/icons.component";
 import { MapsComponent } from "../../pages/maps/maps.component";
 import { UserProfileComponent } from "../../pages/user-profile/user-profile.component";
-import { TablesComponent } from "../../pages/tables/tables.component";
 import { LoginComponent } from "src/app/pages/login/login.component";
 import { AuthGuard } from "src/app/guards/auth.guard";
 import { AdminGuard } from "src/app/guards/admin.guard";
@@ -13,6 +12,7 @@ import { ListUsersComponent } from "../../pages/list-users/list-users.component"
 import { ListAdherentComponent } from "src/app/pages/list-adherent/list-adherent.component";
 import { ModifierAdherentComponent } from "src/app/pages/modifier-adherent/modifier-adherent.component";
 import { AllAdherentsComponent } from "../../pages/all-adherents/all-adherents.component";
+import { ListAmicalesComponent } from "src/app/pages/list-amicales/list-amicales.component";
 export const AdminLayoutRoutes: Routes = [
   {
     path: "dashboard",
@@ -24,7 +24,7 @@ export const AdminLayoutRoutes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
-  { path: "tables", component: TablesComponent, canActivate: [AuthGuard] },
+
   { path: "icons", component: IconsComponent, canActivate: [AuthGuard] },
   { path: "maps", component: MapsComponent, canActivate: [AuthGuard] },
   { path: "", component: LoginComponent, canActivate: [AuthGuard] },
@@ -41,6 +41,10 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "modifieradherent",
     component: ModifierAdherentComponent,
+  },
+  {
+    path: "listeAmicales",
+    component: ListAmicalesComponent,
   },
   {
     path: "alladherents",

@@ -12,28 +12,32 @@ import { catchError, tap } from "rxjs/operators";
   providedIn: "root",
 })
 export class AmicalesService {
-  private URL = "http://127.0.0.1:8000/api/";
+  private URL = "http://127.0.0.1:8000/api/amicale";
+  nbAdherentUrl = "http://127.0.0.1:8000/api/getAdherentParAmicale/";
   constructor(private http: HttpClient) {}
   getAmicales() {
-    return this.http.get<any>(this.URL + "getAmicale");
+    return this.http.get<any>(this.URL);
   }
   getAmicaleByname(name: String) {
     return this.http.get<any>(this.URL + "amicaleByName/" + name);
   }
-  addAmicale(amicale: Amicale) {
+  addAmicale(amicale: any) {
     return this.http
-      .post(this.URL + "addAmicale", amicale, {
+      .post(this.URL, amicale, {
         responseType: "text",
       })
       .pipe(catchError(this.handleError));
   }
   deleteAmicale(nom: String): any {
-    return this.http.delete(this.URL + "amicale/" + nom, {
+    return this.http.delete(this.URL + nom, {
       responseType: "text",
     });
   }
   getCordonnes(nom: String) {
-    return this.http.get(this.URL + "getCoordonne/" + nom);
+    return this.http.get(this.URL + "/getCoordonne/" + nom);
+  }
+  editAmicale(amicale: Amicale) {
+    return this.http.put(this.URL + amicale.nom, amicale);
   }
 
   handleError(error) {
@@ -50,5 +54,8 @@ export class AmicalesService {
     }
 
     return throwError(errorMessage);
+  }
+  getnbAdherents(name) {
+    return this.http.get(this.nbAdherentUrl + name);
   }
 }

@@ -14,103 +14,32 @@
         [ngClass]="this.width >= this.optimalWidth ? 'col-8' : 'col-12'"
         id="mainCard"
       >
-        <div class="card card-profile shadow">
-          <div class="card-header text-center border-0 pt-0 pb-0 pb-md-4"></div>
-          <div class="card-body pt-0">
-            <div class="text-center">
-              <div class="d-flex" style="flex-direction: column;">
-                <span
-                  class="align-self-center"
-                  style="position: relative; left: 0.4em;"
-                >
-                  <h2 class="font-weight-bold">
-                    {{ this.nom | uppercase }}
-                  </h2>
-                </span>
-                <span class="align-self-end" style="position: absolute;">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    (click)="openAddDialog(this.idAmicale)"
-                  >
-                    Modifier <i class="fas fa-cog"></i>
-                  </button>
-                </span>
-              </div>
-              <div *ngIf="this.emailAmicale.length != 0" class="h3 mt-4">
-                <i class="ni business_briefcase-24 mr-2"></i>Email
-              </div>
-              <div *ngIf="this.emailAmicale.length != 0">
-                {{ this.emailAmicale }}
-              </div>
-              <div class="h3 mt-4">
-                <i class="ni business_briefcase-24 mr-2"></i>Numéros du
-                Téléphones
-              </div>
-              <div *ngIf="this.num2.length === 0">{{ this.num1 }}</div>
-              <div
-                *ngIf="this.num2.length >= 1"
-                class="d-flex justify-content-center"
-              >
-                <div class="row">
-                  <div class="col-6">{{ this.num1 }}</div>
-                  <div class="col-6">{{ this.num2 }}</div>
-                </div>
-              </div>
-              <div class="h3 mt-4">
-                <i class="ni business_briefcase-24 mr-2"></i>Adresse
-              </div>
-              <div *ngIf="this.emailAmicale.length != 0">
-                {{ this.adresseAmicale1 }} {{ this.adresseAmicale2 }}
-              </div>
-            </div>
-          </div>
-        </div>
+        <big-card
+          [name]="this.nom"
+          [email]="this.emailAmicale"
+          [num1]="this.num1"
+          [num2]="this.num2"
+          [adress]="this.adresse"
+          [typeId]="idAmicale"
+          [type]="amicale"
+        ></big-card>
       </div>
 
       <div class="col-4" *ngIf="this.width >= optimalWidth">
         <div class="row" style="height: 47.5%;">
-          <div class="card-body bg-white rounded">
-            <div class="row">
-              <div class="col-lg-9 h-auto">
-                <h3 class="card-title text-uppercase text-muted mb-0">
-                  Nombre des Adhérents
-                </h3>
-                <span class="h2 font-weight-bold mb-0">{{
-                  this.listAdherent.length
-                }}</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-danger text-white rounded-circle shadow"
-                >
-                  <i class="fas fa-male fa-2x"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+          <small-card
+            [name]="card1.name"
+            [icon]="card1.icon"
+            [statistics]="this.listAdherent.length"
+          ></small-card>
         </div>
         <div class="row" style="height: 5%;"></div>
         <div class="row" style="height: 47.5%;">
-          <div class="card-body bg-white rounded">
-            <div class="row">
-              <div class="col-lg-9 h-auto">
-                <h3 class="card-title text-uppercase text-muted mb-0">
-                  Nombre des Adhérents actifs
-                </h3>
-                <span class="h2 font-weight-bold mb-0">{{
-                  this.nbAdherentsActifs
-                }}</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-danger text-white rounded-circle shadow"
-                >
-                  <i class="fas fa-check-circle fa-2x"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+          <small-card
+            [name]="card2.name"
+            [icon]="card2.icon"
+            [statistics]="this.nbAdherentsActifs"
+          ></small-card>
         </div>
       </div>
     </div>

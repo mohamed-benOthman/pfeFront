@@ -22,44 +22,20 @@
         </a>
         <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
           <div class="dropdown-header noti-title">
-            <h6 class="text-overflow m-0">Welcome!</h6>
+            <h6 class="text-overflow m-0">Salut!</h6>
           </div>
           <a
             routerLinkActive="active"
-            [routerLink]="['/user-profile']"
+            (click)="openProfileDialog()"
             class="dropdown-item"
           >
             <i class="ni ni-single-02"></i>
-            <span>My profile</span>
+            <span (click)="openProfileDialog()">Mon profile</span>
           </a>
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/user-profile']"
-            class="dropdown-item"
-          >
-            <i class="ni ni-settings-gear-65"></i>
-            <span>Settings</span>
-          </a>
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/user-profile']"
-            class="dropdown-item"
-          >
-            <i class="ni ni-calendar-grid-58"></i>
-            <span>Activity</span>
-          </a>
-          <a
-            routerLinkActive="active"
-            [routerLink]="['/user-profile']"
-            class="dropdown-item"
-          >
-            <i class="ni ni-support-16"></i>
-            <span>Support</span>
-          </a>
-          <div class="dropdown-divider" (click)="logout()"></div>
+
           <a href="#!" class="dropdown-item" (click)="logout()">
-            <i class="ni ni-user-run"></i>
-            <span (click)="logout()">Logout</span>
+            <i class="ni ni-user-run" (click)="logout()"></i>
+            <span (click)="logout()">Se Déconnecter</span>
           </a>
         </div>
       </li>

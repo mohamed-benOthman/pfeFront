@@ -18,6 +18,9 @@ export class AdherentsService {
     private http: HttpClient,
     private adresseService: AdresseService
   ) {}
+  localHost = "http://127.0.0.1:8000/";
+  nbAdherentsUrl = "http://127.0.0.1:8000/api/getNbAdherent";
+  nbAdherentsActifsUrl = "http://127.0.0.1:8000/api/getNbAdherentActif";
   apiURL = "http://127.0.0.1:8000/api/amicale/";
   adherentUrl = "http://127.0.0.1:8000/api/adherent";
   getAdherent(nom) {
@@ -27,6 +30,12 @@ export class AdherentsService {
     return this.http.delete(this.adherentUrl + "/" + id);
 
     // this.adresseService.deleteAdresse(adrId);
+  }
+  getnbAdherentsTotale(): Observable<any> {
+    return this.http.get(this.nbAdherentsUrl);
+  }
+  getnbAdherentsActifs() {
+    return this.http.get(this.nbAdherentsActifsUrl);
   }
   addAdherent(adherent: Adherent) {
     return this.http.post(this.adherentUrl, JSON.stringify(adherent));

@@ -1,0 +1,171 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-none text-white">Bonjour {{ this.prenom }}</h1>
+        <p class="text-white mt-0 mb-5">
+          C'est la page de Tous les Amicales.Ici vous puvez les gerer
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="container-fluid card-header shadow-none bg-white border-0">
+          <div class="row justify-content-between">
+            <div [ngClass]="this.width >= 1350 ? 'col-4' : 'col-3'">
+              <h3 class="mt-2 mb-0">Liste des Amicales</h3>
+            </div>
+            <div class="col-4">
+              <input
+                type="text"
+                class="form-control"
+                name="searchString"
+                placeholder="Chercher..."
+                [(ngModel)]="searchString"
+              />
+            </div>
+            <div
+              [ngClass]="this.width > 1580 ? 'col-1' : 'col-2'"
+              *ngIf="this.width >= 1180"
+              class="col-1"
+            >
+              <div class="dropdown">
+                <button
+                  class="btn btn-primary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Items par page
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="changeMaxSize(10)"
+                  >
+                    10
+                  </button>
+
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="changeMaxSize(100)"
+                  >
+                    100
+                  </button>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="changeMaxSize(500)"
+                  >
+                    500
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="openAddDialog(this.idAmicale)"
+              >
+                Ajouter <i class="fas fa-plus-circle"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="table-responsive">
+            <table
+              matSort
+              (matSortChange)="sortData($event)"
+              class="table align-items-center table-flush w-100"
+            >
+              <thead>
+                <tr>
+                  <th mat-sort-header="nom">
+                    Nom
+                  </th>
+                  <th mat-sort-header="prenom">Nom</th>
+                  <th mat-sort-header="codeUtecom">Email</th>
+                  <th mat-sort-header="numTel1">Numéro 1</th>
+                  <th mat-sort-header="numTel2">Numéro 2</th>
+
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let adherent of sortedData
+                      | filter: searchString
+                      | paginate
+                        : {
+                            id: 'adherentPagination',
+                            itemsPerPage: maxSize,
+                            currentPage: page,
+                            totalItems: totalAdherents
+                          }
+                  "
+                >
+                  <th scope="row">
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.nom
+                    }}</a>
+                  </th>
+                  <th scope="row">
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.email
+                    }}</a>
+                  </th>
+                  <th scope="row">
+                    adherent.numero1
+                  </th>
+                  <td>
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.numero1
+                    }}</a>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/listcontrats', adherent.cin]">{{
+                      adherent.numero2
+                    }}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+            <div class="mr-4 d-flex justify-content-end">
+              <div>
+                <pagination-controls
+                  id="adherentPagination"
+                  [maxSize]="this.maxSize"
+                  directionLinks="true"
+                  autoHide="true"
+                  responsive="true"
+                  previousLabel="Précédent"
+                  nextLabel="Suivant"
+                  (pageChange)="page = $event"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

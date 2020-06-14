@@ -1,5 +1,5 @@
-import { Adresse } from "./adresse";
-import { Amicale } from "./amicale";
+import { Adresse } from './adresse';
+import { Amicale } from './amicale';
 export class Adherent {
   id: String;
   nom: string;

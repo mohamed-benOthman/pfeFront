@@ -1,0 +1,61 @@
+<div class="modal-fluid">
+  <div
+    class="row justify-content-between"
+    style="padding-left: 15px; padding-right: 15px;"
+  >
+    <h3>
+      Ajouter Utilisateur
+    </h3>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form
+    *ngIf="!this.loading && !this.success"
+    #sendEmailForm="ngForm"
+    (ngSubmit)="sendRegistatrationEmail(sendEmailForm)"
+  >
+    <div class="form-group">
+      <label class="pl--3">Email</label>
+      <input
+        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
+        ngModel
+        #email="ngModel"
+        type="text"
+        name="email"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="Email"
+        [class.is-invalid]="email.invalid && email.touched"
+      />
+      <small
+        class="d-flex justify-content-center text-danger"
+        *ngIf="email.invalid && email.touched"
+        >Email Invalide
+      </small>
+      <small
+        class="d-flex justify-content-center text-danger"
+        *ngIf="this.failure"
+        >Cette email existe déja
+      </small>
+    </div>
+    <div class="row justify-content-end" style="margin-right: 3px;">
+      <button
+        [disabled]="email.invalid || email.pristine"
+        class="btn btn-primary"
+      >
+        Confirmer
+      </button>
+    </div>
+  </form>
+  <div class="d-flex justify-content-center">
+    <app-loading-spinner
+      color=" #56baed"
+      *ngIf="this.loading"
+    ></app-loading-spinner>
+    <success
+      label="email de confirmation est envoyé"
+      *ngIf="!this.loading && this.success"
+    ></success>
+  </div>
+</div>

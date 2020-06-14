@@ -1,19 +1,18 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { AmicalesService } from "src/app/services/amicales.service";
-import { DataService } from "src/app/services/data.service";
-import { MatDialog } from "@angular/material/dialog";
-import { MatDialogRef } from "@angular/material/dialog";
-import { AdherentsService } from "src/app/services/adherents.service";
-import { HttpClient } from "@angular/common/http";
-import { Router } from "@angular/router";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AmicalesService } from 'src/app/services/amicales.service';
+import { DataService } from 'src/app/services/data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AdherentsService } from 'src/app/services/adherents.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
-  selector: "app-delete-confirmation",
-  templateUrl: "./delete-confirmation.component.html",
-  styleUrls: ["./delete-confirmation.component.css"],
+  selector: 'app-delete-confirmation',
+  templateUrl: './delete-confirmation.component.html',
+  styleUrls: ['./delete-confirmation.component.css'],
 })
 export class DeleteConfirmationComponent implements OnInit {
-  isHidden = false;
   constructor(
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -23,22 +22,23 @@ export class DeleteConfirmationComponent implements OnInit {
     private http: HttpClient,
     private router: Router
   ) {}
-  ngOnInit() {}
+  isHidden = false;
   nom: String = this.data.nom;
+  ngOnInit() {}
   async deleteAnything() {
     try {
       switch (this.data.type) {
-        case "amicale": {
+        case 'amicale': {
           await this.amicaleService
             .deleteAmicale(this.nom)
             .subscribe((data) => console.log(data));
           this.dataService.deleteAmicale(this.nom);
         }
-        case "adherent": {
-          let id: String = this.data.id;
+        case 'adherent': {
+          const id: String = this.data.id;
 
           this.http
-            .delete("http://127.0.0.1:8000/api/adherent/" + id)
+            .delete('http://127.0.0.1:8000/api/adherent/' + id)
             .subscribe((res) => {
               console.log(res);
               this.dataService.deleteAdherent(id);

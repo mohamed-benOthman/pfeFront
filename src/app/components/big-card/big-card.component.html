@@ -1,0 +1,58 @@
+<div class="card card-profile shadow">
+  <div class="card-header text-center border-0 pt-0 pb-0 pb-md-4"></div>
+  <div class="card-body pt-0">
+    <div class="text-center">
+      <div class="d-flex" style="flex-direction: column;">
+        <span
+          class="align-self-center"
+          style="position: relative; left: 0.4em;"
+        >
+          <h2 class="font-weight-bold">
+            {{ this.name | uppercase }}
+          </h2>
+        </span>
+        <span class="align-self-end" style="position: absolute;">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="openEditDialog()"
+          >
+            Modifier <i class="fas fa-cog"></i>
+          </button>
+        </span>
+      </div>
+      <div *ngIf="this.type === 'amicale'">
+        <div *ngIf="this.email.length != 0" class="h3 mt-4">
+          <i class="ni business_briefcase-24 mr-2"></i>Email
+        </div>
+        <div *ngIf="this.email.length != 0">
+          {{ this.email }}
+        </div>
+      </div>
+      <div *ngIf="this.type === 'adherent'">
+        <div *ngIf="this.email.length != 0" class="h3 mt-4">
+          <i class="ni business_briefcase-24 mr-2"></i>CIN
+        </div>
+        <div *ngIf="this.email.length != 0">
+          {{ this.cin }}
+        </div>
+      </div>
+      <div class="h3 mt-4">
+        <i class="ni business_briefcase-24 mr-2"></i>Numéros du Téléphones
+      </div>
+      <div *ngIf="this.num2.length === 0">{{ this.num1 }}</div>
+      <div *ngIf="this.num2.length >= 1" class="d-flex justify-content-center">
+        <div class="row">
+          <div class="col-6">{{ this.num1 }}</div>
+          <div class="col-6">{{ this.num2 }}</div>
+        </div>
+      </div>
+      <div class="h3 mt-4">
+        <i class="ni business_briefcase-24 mr-2"></i>Adresse
+      </div>
+      <div *ngIf="this.email.length != 0">
+        {{ this.adress }}
+      </div>
+    </div>
+  </div>
+</div>

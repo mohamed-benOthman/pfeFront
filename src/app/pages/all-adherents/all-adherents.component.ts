@@ -8,36 +8,29 @@ import {
   ViewChildren,
   QueryList,
   ViewChild,
-} from "@angular/core";
-import { AdherentsService } from "src/app/services/adherents.service";
-import { Adherent } from "src/app/models /adherent";
-import { ActivatedRoute, ParamMap } from "@angular/router";
-import { DataService } from "src/app/services/data.service";
-import { Sort } from "@angular/material/sort";
-import { AmicalesService } from "src/app/services/amicales.service";
-import { DeleteConfirmationComponent } from "src/app/components/modals/delete-confirmation/delete-confirmation.component";
-import { MatDialog } from "@angular/material/dialog";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { MatPaginator } from "@angular/material/paginator";
-import { AddSomethingComponent } from "../add-something/add-something.component";
-import { EditSomethingComponent } from "../edit-something/edit-something.component";
+} from '@angular/core';
+import { AdherentsService } from 'src/app/services/adherents.service';
+import { Adherent } from 'src/app/models /adherent';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+import { Sort } from '@angular/material/sort';
+import { AmicalesService } from 'src/app/services/amicales.service';
+import { DeleteConfirmationComponent } from 'src/app/components/modals/delete-confirmation/delete-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatPaginator } from '@angular/material/paginator';
+import { AddSomethingComponent } from '../add-something/add-something.component';
+import { EditSomethingComponent } from '../edit-something/edit-something.component';
 
 @Component({
-  selector: "app-all-adherents",
-  templateUrl: "./all-adherents.component.html",
-  styleUrls: ["./all-adherents.component.css"],
+  selector: 'app-all-adherents',
+  templateUrl: './all-adherents.component.html',
+  styleUrls: ['./all-adherents.component.css'],
   host: {
-    "(window:resize)": "onWindowResize($event)",
+    '(window:resize)': 'onWindowResize($event)',
   },
 })
 export class AllAdherentsComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  nom: String;
-  sortedData: Adherent[];
-  totalAdherents: Number;
-  width: number = window.innerWidth;
-  height: number = window.innerHeight;
-  optimalWidth = 916;
   constructor(
     private adherentService: AdherentsService,
     private _Activatedroute: ActivatedRoute,
@@ -46,18 +39,26 @@ export class AllAdherentsComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.dataservice.currentAdherentList.subscribe((resopnse) => {
-      if (resopnse.length != 0) this.sortedData = resopnse;
+      if (resopnse.length != 0) { this.sortedData = resopnse; }
     });
   }
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  nom: String;
+  sortedData: Adherent[];
+  totalAdherents: Number;
+  width: number = window.innerWidth;
+  height: number = window.innerHeight;
+  optimalWidth = 916;
   listAdherent: Adherent[];
   searchString: string;
 
   num1: String;
   num2: String;
   nbAdherentsActifs;
+  maxSize = 10;
   ngOnInit() {
     this._Activatedroute.paramMap.subscribe((params) => {
-      this.nom = params.get("nom");
+      this.nom = params.get('nom');
     });
 
     this.adherentService.getAllAdhereants().subscribe((res) => {
@@ -73,7 +74,7 @@ export class AllAdherentsComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       data: {
         id: id,
-        type: "adherent",
+        type: 'adherent',
         nom: nom,
         adrId: adresse,
         nomAmicale: this.nom,
@@ -90,38 +91,37 @@ export class AllAdherentsComponent implements OnInit {
   }
   sortData(sort: Sort) {
     const data = this.listAdherent.slice();
-    if (!sort.active || sort.direction === "") {
+    if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       return;
     }
 
     this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === "asc";
+      const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case "nom":
+        case 'nom':
           return compare(a.nom, b.nom, isAsc);
-        case "prenom":
+        case 'prenom':
           return compare(a.prenom, b.prenom, isAsc);
-        case "codeUtecom":
+        case 'codeUtecom':
           return compare(a.codeUtecom, b.codeUtecom, isAsc);
-        case "cin":
+        case 'cin':
           return compare(a.cin, b.cin, isAsc);
-        case "numTel1":
+        case 'numTel1':
           return compare(a.numTel1, b.numTel1, isAsc);
-        case "numTel2":
+        case 'numTel2':
           return compare(a.numTel2, b.numTel2, isAsc);
-        case "numCarte":
+        case 'numCarte':
           return compare(a.numCarte, b.numCarte, isAsc);
-        case "email":
+        case 'email':
           return compare(a.email, b.email, isAsc);
-        case "statut":
+        case 'statut':
           return compare(a.statut, b.statut, isAsc);
         default:
           return 0;
       }
     });
   }
-  maxSize = 10;
   changeMaxSize(number) {
     this.maxSize = number;
   }

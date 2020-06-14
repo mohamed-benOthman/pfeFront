@@ -1,0 +1,20 @@
+<div class="form-group">
+  <label>{{ labelName }}</label>
+  <input
+    pattern="[1-9]*"
+    required
+    #prenom="ngModel"
+    ngModel
+    type="text"
+    [name]="name"
+    class="form-control"
+    id="exampleFormControlInput1"
+    [placeholder]="placeholder"
+    [class.is-invalid]="prenom.invalid && prenom.touched"
+  />
+  <small
+    class="d-flex justify-content-center text-danger"
+    *ngIf="prenom.invalid && prenom.touched"
+    >Ce champs est requis
+  </small>
+</div>

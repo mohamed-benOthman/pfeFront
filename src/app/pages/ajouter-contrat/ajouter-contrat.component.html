@@ -8,24 +8,29 @@
     </button>
   </div>
   <mat-horizontal-stepper linear #stepper>
-    <mat-step label="Données du contrat">
-      <form class="overflow-auto" #identityForm="ngForm">
+    <mat-step label="Données du contrat" [completed]="this.completed1">
+      <form
+        class="overflow-auto"
+        #contractDataForm="ngForm"
+        (ngSubmit)="onSubmitContractData(contractDataForm, stepper)"
+      >
         <div class="form-group">
           <label>Numéro de Police</label>
           <input
-            #codeUtecom="ngModel"
+            required
+            #numPolice="ngModel"
             pattern="[0-9]*"
             ngModel
-            name="codeUtecom"
+            name="numPolice"
             type="text"
             class="form-control"
             id="exampleFormControlInput1"
-            placeholder="Code Utecom"
-            [class.is-invalid]="codeUtecom.invalid && codeUtecom.touched"
+            placeholder="Numéro de police"
+            [class.is-invalid]="numPolice.invalid && numPolice.touched"
           />
           <small
             class="d-flex justify-content-center text-danger"
-            *ngIf="codeUtecom.invalid && codeUtecom.touched"
+            *ngIf="numPolice.invalid && numPolice.touched"
             >Seulement des Numéros
           </small>
         </div>
@@ -34,15 +39,17 @@
           <div class="row">
             <div class="col-10">
               <input
-                #codeUtecom="ngModel"
+                #dateEcheance="ngModel"
+                name="dateEcheance"
                 required
                 ngModel
                 [matDatepicker]="myDatepicker"
                 class="form-control"
                 placeholder="Code Utecom"
-                [class.is-invalid]="codeUtecom.invalid && codeUtecom.dirty"
+                [class.is-invalid]="dateEcheance.invalid && dateEcheance.dirty"
               />
             </div>
+
             <div class="col-2 pr--1">
               <mat-datepicker-toggle
                 [for]="myDatepicker"
@@ -52,7 +59,7 @@
           </div>
           <small
             class="d-flex justify-content-center text-danger"
-            *ngIf="codeUtecom.invalid && codeUtecom.dirty"
+            *ngIf="dateEcheance.invalid && dateEcheance.touched"
             >Seulement des Numéros
           </small>
         </div>
@@ -62,48 +69,258 @@
           <div class="row">
             <div class="col-10">
               <input
-                #codeUtecom="ngModel"
+                #dateEffective="ngModel"
                 required
                 ngModel
-                [matDatepicker]="myDatepicker"
+                [matDatepicker]="myDatepicker1"
                 class="form-control"
+                name="dateEffective"
                 placeholder="Code Utecom"
-                [class.is-invalid]="codeUtecom.invalid && codeUtecom.touched"
+                [class.is-invalid]="
+                  dateEffective.invalid && dateEffective.touched
+                "
               />
             </div>
             <div class="col-2 pr--1">
               <mat-datepicker-toggle
-                [for]="myDatepicker"
+                [for]="myDatepicker1"
               ></mat-datepicker-toggle>
-              <mat-datepicker #myDatepicker></mat-datepicker>
+              <mat-datepicker #myDatepicker1></mat-datepicker>
             </div>
           </div>
           <small
             class="d-flex justify-content-center text-danger"
-            *ngIf="codeUtecom.invalid && codeUtecom.dirty"
-            >Seulement des Numéros
+            *ngIf="dateEffective.invalid && dateEffective.touched"
+            >Ce champs est requis
           </small>
         </div>
         <div class="form-group">
           <label>Remarques</label>
           <textarea
-            required
-            #nom="ngModel"
             ngModel
             type="text"
-            [class.is-invalid]="nom.invalid && nom.touched"
-            name="nom"
+            name="remarques"
             class="form-control"
             rows="3"
             id="exampleFormControlInput1"
-            placeholder="Nom"
+            placeholder="Remarques"
           >
           </textarea>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            [disabled]="contractDataForm.form.invalid"
+            class="btn btn-success"
+            type="submit"
+          >
+            Ajouter
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step label="L'ojet assuré">
+      <form
+        class="overflow-auto"
+        #objetForm="ngForm"
+        (ngSubmit)="onSubmitObjet(objetForm, stepper)"
+      >
+        <div class="form-group">
+          <label>Date du Production</label>
+          <div class="row">
+            <div class="col-10">
+              <input
+                name="dateProduction"
+                #dateProduction="ngModel"
+                ngModel
+                [matDatepicker]="myDatepickerEffective"
+                class="form-control"
+                placeholder="Date Effective"
+              />
+            </div>
+            <div class="col-2 pr--1">
+              <mat-datepicker-toggle
+                [for]="myDatepickerEffective"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #myDatepickerEffective></mat-datepicker>
+            </div>
+          </div>
           <small
             class="d-flex justify-content-center text-danger"
-            *ngIf="nom.invalid && nom.touched"
-            >Le Nom est requis
+            *ngIf="dateProduction.invalid && dateProduction.dirty"
+            >Seulement des Numéros
           </small>
+        </div>
+        <div class="form-group">
+          <label>Date d'Aquisition</label>
+          <div class="row">
+            <div class="col-10">
+              <input
+                #dateAquisition="ngModel"
+                required
+                ngModel
+                [matDatepicker]="myDatepicker2"
+                name="dateAquisition"
+                class="form-control"
+                placeholder="Code Utecom"
+                [class.is-invalid]="
+                  dateAquisition.invalid && dateAquisition.touched
+                "
+              />
+            </div>
+            <div class="col-2 pr--1">
+              <mat-datepicker-toggle
+                [for]="myDatepicker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #myDatepicker2></mat-datepicker>
+            </div>
+          </div>
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="dateAquisition.invalid && dateAquisition.touched"
+            >Seulement des Numéros
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Type de l'objet</label>
+          <select
+            ngModel
+            required
+            #typeObjet="ngModel"
+            [class.is-invalid]="typeObjet.invalid && typeObjet.touched"
+            class="form-control"
+            name="type"
+            (change)="selectType($event.target.value)"
+          >
+            <option value="" selected>Type</option>
+            <option value="voiture">Voiture</option>
+            <option value="maison">Maison</option>
+          </select>
+          <small
+            class="d-flex justify-content-center text-danger"
+            *ngIf="typeObjet.invalid && typeObjet.touched"
+            >Ce Champs est requis
+          </small>
+        </div>
+        <ng-container [ngSwitch]="type">
+          <div *ngSwitchCase="voiture">
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth">Marque</label>
+              <input
+                required
+                #marque="ngModel"
+                ngModel
+                type="text"
+                [class.is-invalid]="marque.invalid && marque.touched"
+                name="marque"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Marque"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="marque.invalid && marque.touched"
+                >Ce champs est requis
+              </small>
+            </div>
+
+            <div class="row justify-content-between">
+              <div class="col-xl">
+                <div class="form-group">
+                  <label *ngIf="this.width >= optimalWidth">Modèle</label>
+                  <input
+                    required
+                    #model="ngModel"
+                    ngModel
+                    name="model"
+                    required
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="Modèle"
+                    [class.is-invalid]="model.invalid && model.touched"
+                  />
+                  <small
+                    class="d-flex justify-content-center text-danger"
+                    *ngIf="model.invalid && model.touched"
+                    >Ce champs est requis
+                  </small>
+                </div>
+              </div>
+              <div class="col-xl">
+                <div class="form-group">
+                  <label *ngIf="this.width >= optimalWidth">Puissance</label>
+                  <input
+                    pattern="[0-9]*"
+                    #puissance="ngModel"
+                    ngModel
+                    name="puissance"
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="puissance"
+                    [class.is-invalid]="puissance.invalid && puissance.dirty"
+                  />
+                  <small
+                    class="d-flex justify-content-center text-danger"
+                    *ngIf="puissance.invalid && puissance.dirty"
+                  >
+                    Numéros
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth"
+                >Numéro du Chassis</label
+              >
+              <input
+                #chassis="ngModel"
+                ngModel
+                type="text"
+                name="chassis"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Numéro de chassis"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="chassis.invalid && chassis.touched"
+                >Ce champs est requis
+              </small>
+            </div>
+            <div class="form-group">
+              <label *ngIf="this.width >= optimalWidth"
+                >Numéro du Chassis</label
+              >
+              <input
+                #chassis="ngModel"
+                ngModel
+                type="text"
+                name="serie"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Numéro de chassis"
+              />
+              <small
+                class="d-flex justify-content-center text-danger"
+                *ngIf="chassis.invalid && chassis.touched"
+                >Ce champs est requis
+              </small>
+            </div>
+          </div>
+          <ng-container *ngSwitchCase=""></ng-container>
+        </ng-container>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-danger" matStepperPrevious>
+            Retourner
+          </button>
+          <button
+            [disabled]="objetForm.form.invalid"
+            class="btn btn-success"
+            type="submit"
+          >
+            Suivant
+          </button>
         </div>
       </form>
     </mat-step>
@@ -113,12 +330,12 @@
           #fileInput
           style="display: none;"
           type="file"
-          (change)="onFileSelected($event)"
+          (change)="onFileSelected($event, stepper)"
         />
 
         <ngx-file-drop
           dropZoneLabel="Drop files here"
-          (onFileDrop)="dropped($event)"
+          (onFileDrop)="dropped($event, stepper)"
           (onFileOver)="fileOver($event)"
           (onFileLeave)="fileLeave($event)"
         >
@@ -152,6 +369,22 @@
         </div>
         <br />
       </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-outline-danger" matStepperPrevious>
+          Retourner
+        </button>
+        <button
+          (click)="addContract(stepper)"
+          class="btn btn-success"
+          type="submit"
+        >
+          Terminer
+        </button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Succées</ng-template>
+      <success></success>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

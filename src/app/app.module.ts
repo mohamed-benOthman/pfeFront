@@ -35,6 +35,9 @@ import { ListContratsComponent } from "./pages/list-contrats/list-contrats.compo
 import { AjouterContratComponent } from "./pages/ajouter-contrat/ajouter-contrat.component";
 import { DropzoneDirective } from "./pages/ajoyer-contrat/dropzone.directive";
 import { NgxFileDropModule } from "ngx-file-drop";
+import { EditAmicaleComponent } from "./pages/edit-amicale/edit-amicale.component";
+import { EditUserComponent } from "./pages/edit-user/edit-user.component";
+import { ListAmicalesComponent } from './pages/list-amicales/list-amicales.component';
 
 @NgModule({
   imports: [
@@ -67,6 +70,9 @@ import { NgxFileDropModule } from "ngx-file-drop";
     ListContratsComponent,
     AjouterContratComponent,
     DropzoneDirective,
+    EditAmicaleComponent,
+    EditUserComponent,
+    ListAmicalesComponent,
   ],
   entryComponents: [AddingAmicalComponent],
   providers: [

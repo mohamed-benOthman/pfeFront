@@ -1,0 +1,158 @@
+<div class="row">
+  <div class="col">
+    <div class="card shadow">
+      <div class="container-fluid card-header shadow-none bg-white border-0">
+        <div class="row justify-content-between">
+          <div [ngClass]="this.width >= 1350 ? 'col-4' : 'col-3'">
+            <h3 class="mt-2 mb-0">Liste des Contrats</h3>
+          </div>
+          <div class="col-4">
+            <input
+              type="text"
+              class="form-control"
+              name="searchString"
+              placeholder="Chercher..."
+              [(ngModel)]="searchString"
+            />
+          </div>
+          <div
+            [ngClass]="this.width > 1580 ? 'col-1' : 'col-2'"
+            *ngIf="this.width >= 1180"
+            class="col-1"
+          >
+            <div class="dropdown">
+              <button
+                class="btn btn-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenu2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Items par page
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  (click)="changeMaxSize(10)"
+                >
+                  10
+                </button>
+
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  (click)="changeMaxSize(100)"
+                >
+                  100
+                </button>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  (click)="changeMaxSize(500)"
+                >
+                  500
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="this.addClicked.emit()"
+            >
+              Ajouter <i class="fas fa-plus-circle"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="table-responsive">
+          <table
+            matSort
+            (matSortChange)="sortData($event)"
+            class="table align-items-center table-flush w-100"
+          >
+            <thead>
+              <tr>
+                <th mat-sort-header="numPolice">Numéro de Police</th>
+                <th mat-sort-header="dateEcheance">Date D'écheance</th>
+                <th mat-sort-header="dateEffective">Date Effective</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of listContrats
+                    | filterContract: searchString
+                    | paginate
+                      : {
+                          id: 'adherentPagination',
+                          itemsPerPage: maxSize,
+                          currentPage: page,
+                          totalItems: totalContrats
+                        }
+                "
+              >
+                <th scope="row">
+                  {{ item.numPolice }}
+                </th>
+                <th scope="row">
+                  {{ item.dateEcheance }}
+                </th>
+                <th scope="row">
+                  {{ item.dateEffective }}
+                </th>
+                <td>
+                  <button type="button" class="btn btn-twitter">
+                    Consulter
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-outline-success">
+                    <i class="fas fa-cog"></i>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    [disabled]="item.contractFile == null"
+                    type="button"
+                    (click)="openPdf(item.contractFile.url)"
+                    class="btn btn-outline-primary"
+                  >
+                    <i class="fas fa-file-pdf"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <div class="mr-4 d-flex justify-content-end">
+            <div>
+              <pagination-controls
+                id="adherentPagination"
+                [maxSize]="this.maxSize"
+                directionLinks="true"
+                autoHide="true"
+                responsive="true"
+                previousLabel="Précédent"
+                nextLabel="Suivant"
+                (pageChange)="page = $event"
+              >
+              </pagination-controls>
+            </div>
+          </div>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

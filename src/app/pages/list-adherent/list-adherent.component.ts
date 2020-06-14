@@ -21,7 +21,11 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { MatPaginator } from "@angular/material/paginator";
 import { AddSomethingComponent } from "../add-something/add-something.component";
 import { EditSomethingComponent } from "../edit-something/edit-something.component";
-
+interface card {
+  name: string;
+  statistics: string;
+  icon: string;
+}
 @Component({
   selector: "app-list-adherent",
   templateUrl: "./list-adherent.component.html",
@@ -31,13 +35,6 @@ import { EditSomethingComponent } from "../edit-something/edit-something.compone
   },
 })
 export class ListAdherentComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  nom: String;
-  sortedData: Adherent[];
-  totalAdherents: Number;
-  width: number = window.innerWidth;
-  height: number = window.innerHeight;
-  optimalWidth = 916;
   constructor(
     private adherentService: AdherentsService,
     private _Activatedroute: ActivatedRoute,
@@ -45,21 +42,33 @@ export class ListAdherentComponent implements OnInit {
     private amicaleService: AmicalesService,
     private dialog: MatDialog
   ) {
-    this.dataservice.currentAdherentList.subscribe((resopnse) => {
-      if (resopnse.length != 0) this.sortedData = resopnse;
+    this.dataservice.currentAdherentList.subscribe((resopnse: any) => {
+      if (resopnse.length != 0) {
+        this.sortedData = resopnse;
+      }
     });
   }
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  nom: String;
+  sortedData: Adherent[];
+  totalAdherents: Number;
+  width: number = window.innerWidth;
+  height: number = window.innerHeight;
+  optimalWidth = 916;
   listAdherent: Adherent[];
   searchString: string;
-  amicale;
+  amicale = "amicale";
   idAmicale: String;
 
   emailAmicale: String;
-  adresseAmicale1: String; //pour la rue et la code postale
+  adresseAmicale1: String; // pour la rue et la code postale
   adresseAmicale2: String;
+  adresse: String;
   num1: String;
   num2: String;
   nbAdherentsActifs;
+  maxSize = 10;
+  type = "Amicale";
   ngOnInit() {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.nom = params.get("nom");
@@ -69,6 +78,14 @@ export class ListAdherentComponent implements OnInit {
       this.emailAmicale = res[0].email;
       this.adresseAmicale1 = res[0].rue + " " + res[0].code_postale;
       this.adresseAmicale2 = res[0].ville + " " + res[0].municipalite;
+      this.adresse =
+        res[0].rue +
+        " " +
+        res[0].code_postale +
+        " " +
+        res[0].ville +
+        " " +
+        res[0].municipalite;
       this.num1 = res[0].numero1;
       this.num2 = res[0].numero2;
     });
@@ -136,7 +153,6 @@ export class ListAdherentComponent implements OnInit {
       }
     });
   }
-  maxSize = 10;
   changeMaxSize(number) {
     this.maxSize = number;
   }
@@ -145,6 +161,14 @@ export class ListAdherentComponent implements OnInit {
     this.height = event.target.innerHeight;
     console.log(this.width);
   }
+  public card1 = {
+    name: "Nombre des Adhérents",
+    icon: "fas fa-male",
+  };
+  public card2 = {
+    name: "Nombre des Adhérents Actifs",
+    icon: "fas fa-check-circle",
+  };
 }
 function compare(a: number | String, b: number | String, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

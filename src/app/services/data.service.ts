@@ -19,7 +19,7 @@ export class DataService {
     this.listAdherent
   );
   currentAdherentList = this.listAdherentSource.asObservable();
-  private oldUser = new User("", "", "", "", "", "", "");
+  private oldUser = new User("", "", "", "", "");
   private userSource = new BehaviorSubject<User>(this.oldUser);
 
   currentUser = this.userSource.asObservable();
@@ -39,7 +39,7 @@ export class DataService {
   changeUser(user: User) {
     this.userSource.next(user);
   }
-  addAmicale(amicale: Amicale) {
+  addAmicale(amicale: any) {
     this.listAmicale.push(amicale);
   }
   deleteAmicale(nom: String) {
@@ -52,6 +52,31 @@ export class DataService {
   }
   getListAmicales() {
     return this.listAmicaleSource.value;
+  }
+  searchAmicale(nom: String) {
+    let result = false;
+    for (let i = 0; i < this.listAmicaleSource.value.length; i++) {
+      if (this.listAmicaleSource.value[i].nom === nom) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+  editAmicale(amicale: Amicale) {
+    for (let i = 0; i < this.listAmicaleSource.value.length; i++) {
+      if (this.listAmicaleSource.value[i].nom === amicale.nom) {
+        this.listAmicaleSource.value[i] = amicale;
+      }
+    }
+  }
+  searchAmicale2(nom: String) {
+    for (let i = 0; i < this.listAmicaleSource.value.length; i++) {
+      if (this.listAmicaleSource.value[i].nom === nom) {
+        return this.listAmicaleSource.value[i];
+      }
+    }
+    return null;
   }
   addListAdherent(listAdherent: Adherent[]) {
     this.listAdherentSource.next(listAdherent);

@@ -27,16 +27,10 @@ export class AddSomethingComponent implements OnInit {
     private dataservice: DataService
   ) {}
   idAmicale;
-  ngOnInit() {
-    this.idAmicale = this.data.idAmicale;
-  }
   completed = false;
   width: number = window.innerWidth;
 
   optimalWidth = 1200;
-  onWindowResize(event) {
-    this.width = event.target.innerWidth;
-  }
   gouvernorats = [
     "Ariana",
     "Béja",
@@ -368,15 +362,6 @@ export class AddSomethingComponent implements OnInit {
   ];
   municpalite;
   gouvernoratNumber = -1;
-  selectGouvernorat(index: number) {
-    this.gouvernoratNumber = index;
-  }
-  selectMunicipalite(municipalte: String) {
-    this.municpalite = municipalte;
-  }
-  close() {
-    this.dialogRef.close();
-  }
   nom = "";
   prenom = "";
   cin = "";
@@ -386,6 +371,22 @@ export class AddSomethingComponent implements OnInit {
   num2 = "";
   email = "";
   exist = false;
+  completed2 = false;
+  ngOnInit() {
+    this.idAmicale = this.data.idAmicale;
+  }
+  onWindowResize(event) {
+    this.width = event.target.innerWidth;
+  }
+  selectGouvernorat(index: number) {
+    this.gouvernoratNumber = index;
+  }
+  selectMunicipalite(municipalte: String) {
+    this.municpalite = municipalte;
+  }
+  close() {
+    this.dialogRef.close();
+  }
   onSubmit(form: NgForm, stepper: MatStepper) {
     this.nom = form.value.nom;
     this.prenom = form.value.prenom;
@@ -402,7 +403,6 @@ export class AddSomethingComponent implements OnInit {
       stepper.next();
     }
   }
-  completed2 = false;
   onSubmit2(form: NgForm, stepper: MatStepper) {
     const adresse = new Adresse(
       form.value.rue,
@@ -411,7 +411,7 @@ export class AddSomethingComponent implements OnInit {
       this.gouvernorats[this.gouvernoratNumber]
     );
     this.adresseService.addAdresse(adresse).subscribe((res) => {
-      let adherent = new Adherent(
+      const adherent = new Adherent(
         this.email,
         this.prenom,
         this.nom,
@@ -425,9 +425,9 @@ export class AddSomethingComponent implements OnInit {
         res
       );
       this.adherentService.addAdherent(adherent).subscribe((res) => {
-        this.dataService.addAdherent(adherent);
-        this.completed2 = true;
         stepper.next();
+
+        this.dataService.addAdherent(adherent);
       });
     });
   }

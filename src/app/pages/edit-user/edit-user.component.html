@@ -1,0 +1,178 @@
+<div class="modal-lg">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      Modifier Votre Profil
+    </h3>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container-fluid">
+    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Nom</label>
+        <input
+          required
+          #nom="ngModel"
+          [(ngModel)]="this.user.nom"
+          type="text"
+          [class.is-invalid]="nom.invalid"
+          name="nom"
+          [ngClass]="
+            this.width >= this.optimalWidth
+              ? 'form-control'
+              : 'form-control form-control-sm'
+          "
+          id="exampleFormControlInput1"
+          placeholder="Amicale 1"
+          style="width: 400px !important;"
+        />
+
+        <small
+          class="d-flex justify-content-center text-danger"
+          *ngIf="nom.invalid"
+          >Le Nom est requis
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Prénom</label>
+        <input
+          required
+          #prenom="ngModel"
+          [(ngModel)]="this.user.prenom"
+          type="text"
+          [class.is-invalid]="prenom.invalid"
+          name="prenom"
+          [ngClass]="
+            this.width >= this.optimalWidth
+              ? 'form-control'
+              : 'form-control form-control-sm'
+          "
+          id="exampleFormControlInput1"
+          placeholder="Prénom"
+        />
+
+        <small
+          class="d-flex justify-content-center text-danger"
+          *ngIf="prenom.invalid"
+          >Le Prenom est requis
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Email</label>
+        <input
+          pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
+          [(ngModel)]="this.user.email"
+          #email="ngModel"
+          type="text"
+          name="email"
+          [ngClass]="
+            this.width >= this.optimalWidth
+              ? 'form-control'
+              : 'form-control form-control-sm'
+          "
+          id="exampleFormControlInput1"
+          placeholder="Email"
+          [class.is-invalid]="email.invalid"
+        />
+        <small
+          class="d-flex justify-content-center text-danger"
+          *ngIf="email.invalid"
+          >Email Invalide
+        </small>
+      </div>
+      <div class="form-group">
+        <label *ngIf="this.width >= optimalWidth">CIN</label>
+        <input
+          required
+          #cin="ngModel"
+          pattern="^\d{8}$"
+          [(ngModel)]="this.user.cin"
+          name="cin"
+          required
+          type="text"
+          [ngClass]="
+            this.width >= this.optimalWidth
+              ? 'form-control'
+              : 'form-control form-control-sm'
+          "
+          id="exampleFormControlInput1"
+          placeholder="cin"
+          [class.is-invalid]="cin.invalid"
+        />
+        <small
+          class="d-flex justify-content-center text-danger"
+          *ngIf="cin.invalid"
+          >8 Numéros
+        </small>
+
+        <mat-expansion-panel style="border: none; box-shadow: none;">
+          <mat-expansion-panel-header
+            style="font-family: Roboto, Helvetica Neue, sans-serif;"
+          >
+            Modification du mot de passe
+          </mat-expansion-panel-header>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Mot de Passe</label>
+            <input
+              #password1="ngModel"
+              ngModel
+              type="password"
+              [class.is-invalid]="nom.invalid && nom.touched"
+              name="password1"
+              [ngClass]="
+                this.width >= this.optimalWidth
+                  ? 'form-control'
+                  : 'form-control form-control-sm'
+              "
+              id="exampleFormControlInput1"
+              placeholder="Mot de passe"
+            />
+
+            <small
+              class="d-flex justify-content-center text-danger"
+              *ngIf="nom.invalid && nom.touched"
+              >Le Nom est requis
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Mot de Passe</label>
+            <input
+              #password2="ngModel"
+              ngModel
+              type="password"
+              [class.is-invalid]="
+                password2.value != password1.value && password2.dirty
+              "
+              name="password2"
+              [ngClass]="
+                this.width >= this.optimalWidth
+                  ? 'form-control'
+                  : 'form-control form-control-sm'
+              "
+              id="exampleFormControlInput1"
+              placeholder="Repetez votre mot de passe ici"
+            />
+
+            <small
+              class="d-flex justify-content-center text-danger"
+              *ngIf="password2.value != password1.value && password2.dirty"
+              >Les mots de passe ne sont pas similaires password2!=password1 &&
+              password2.dirty
+            </small>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <div class="d-flex justify-content-end">
+        <input
+          [disabled]="userForm.form.invalid"
+          class="btn btn-success"
+          value="Modifier"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
+</div>

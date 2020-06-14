@@ -3,7 +3,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { AmicalesService } from "src/app/services/amicales.service";
 import { NgForm, FormControl } from "@angular/forms";
 import { Amicale } from "../../models /amicale";
-import { catchError, tap } from "rxjs/operators";
+import { catchError, tap, map } from "rxjs/operators";
 import {
   HttpClient,
   HttpErrorResponse,
@@ -12,86 +12,102 @@ import {
 import { error } from "protractor";
 import { DataService } from "src/app/services/data.service";
 import { MatDialogRef } from "@angular/material/dialog";
+import { LieuxService } from "src/app/services/lieux.service";
+import { AdresseService } from "src/app/services/adresse.service";
+import { Adresse } from "src/app/models /adresse";
+import { AdherentsService } from "src/app/services/adherents.service";
+import { throwError } from "rxjs";
+import { Router } from "@angular/router";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-adding-amical",
   templateUrl: "./adding-amical.component.html",
   styleUrls: ["./adding-amical.component.css"],
+  host: {
+    "(window:resize)": "onWindowResize($event)",
+  },
 })
 export class AddingAmicalComponent implements OnInit {
-  error: String;
-  amicale: Amicale;
-  errorStatut = false;
-  checkNom = false;
-  checkNum = false;
-  successStatut = false;
-  unamePattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   constructor(
     public dialogRef: MatDialogRef<AddingAmicalComponent>,
     public activeModal: NgbActiveModal,
     private amicaleService: AmicalesService,
-    private dataService: DataService
+    private dataService: DataService,
+    private lieuxService: LieuxService,
+    private adresseService: AdresseService,
+    private router: Router,
+    private location: Location
   ) {}
+  amicale: Amicale;
+  width: number = window.innerWidth;
+  optimalWidth = 1200;
+  gouvernorats;
+  municipalites;
+  municpalite;
+  gouvernoratNumber = -1;
+  success = false;
+  exists = false;
 
-  ngOnInit(): void {
-    this.successStatut = false;
-
-    this.checkNom = false;
-    this.checkNum = false;
-    this.errorStatut = false;
+  onWindowResize(event) {
+    this.width = event.target.innerWidth;
   }
-  checkTelNumber(nombre: String) {
-    const numbers = /^[0-9]+$/;
-    if (nombre.match(numbers) && nombre.length === 8) {
-      return true;
-    } else {
-      return false;
-    }
+  selectGouvernorat(index: number) {
+    this.gouvernoratNumber = index;
+  }
+  selectMunicipalite(municipalte: String) {
+    this.municpalite = municipalte;
+  }
+  ngOnInit(): void {
+    this.gouvernorats = this.lieuxService.getGouvernorats();
+    this.municipalites = this.lieuxService.getMunicipalite();
   }
   onSubmit(form: NgForm) {
-    this.errorStatut = false;
-    this.checkForm(form.value.nom, form.value.num1, form.value.num2);
-    let checkNumber1: Boolean = false;
-    let checkNumber2: Boolean = false;
-    if (form.value.num2 != "") {
-      checkNumber2 = this.checkTelNumber(form.value.num2);
+    let adresse;
+    this.exists = false;
+    if (this.dataService.searchAmicale(form.value.nom)) {
+      this.exists = true;
     } else {
-      checkNumber2 = true;
-    }
-    checkNumber1 = this.checkTelNumber(form.value.num1);
-    if (
-      (this.checkNum == false || this.checkNom == false) &&
-      checkNumber2 === true &&
-      checkNumber1 === true
-    ) {
-      this.amicale = new Amicale(
-        form.value.nom,
-        form.value.adresse,
-        form.value.email,
-        form.value.num1,
-        form.value.num2
-      );
+      if (form.value.municipalite != undefined) {
+        adresse = new Adresse(
+          form.value.rue,
+          form.value.codePostale,
+          this.municpalite,
+          this.gouvernorats[this.gouvernoratNumber]
+        );
+      } else {
+        adresse = new Adresse(form.value.rue, form.value.codePostale, "", "");
+      }
 
-      this.amicaleService.addAmicale(this.amicale).subscribe(
-        (resdata) => {
-          this.successStatut = true;
-          this.dataService.addAmicale(this.amicale);
-          console.log(resdata);
-        },
-        (err) => {
-          this.error = err;
-        }
-      );
-    } else {
-      this.error = "Les numéros du telphone sont erronnés";
-    }
-  }
-  checkForm(nom: String, num1: String, num2) {
-    if (nom == "") {
-      this.checkNom = true;
-    }
-    if (num1 == "" && num2 == "") {
-      this.checkNum = true;
+      this.adresseService.addAdresse(adresse).subscribe((res) => {
+        const amicale = new Amicale(
+          form.value.nom,
+          form.value.email,
+          res,
+          form.value.num1,
+          form.value.num2
+        );
+        this.amicaleService
+          .addAmicale(amicale)
+          .pipe(
+            catchError((err) => {
+              console.log(err);
+              return throwError("error from the server");
+            })
+          )
+          .subscribe((res) => {
+            this.dataService.addAmicale(amicale);
+
+            this.router
+              .navigateByUrl("", {
+                skipLocationChange: true,
+              })
+              .then(() => {
+                this.router.navigate([this.location.path()]);
+                this.success = true;
+              });
+          });
+      });
     }
   }
   close() {

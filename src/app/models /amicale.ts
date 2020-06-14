@@ -1,4 +1,4 @@
-import { Adresse } from "./adresse";
+import { Adresse } from './adresse';
 
 export class Amicale {
   nom: String;
@@ -6,17 +6,19 @@ export class Amicale {
   adresse: Adresse;
   numero1: String;
   numero2: String;
+  adrId: String;
+  nbAdherent:number
 
   constructor(
     nom: String,
     email: String,
-    adresse: Adresse,
+    adrId: String,
     numero1: String,
     numero2: String
   ) {
     this.nom = nom;
     this.email = email;
-    this.adresse = adresse;
+    this.adrId = adrId;
     this.numero1 = numero1;
     this.numero2 = numero2;
   }
